@@ -1,4 +1,4 @@
-import { TinyEmitter } from 'tiny-emitter';
+import { TinyEmitter } from 'tiny-emitter';
 import IStorageProvider from './storage-provider';
 import LocalStorageProvider from './storage-provider-local';
 
@@ -34,7 +34,7 @@ export const EVENTS = {
     UPDATE: 'update',
 };
 
-const defaultVariant: IVariant = {name: 'disabled'};
+const defaultVariant: IVariant = { name: 'disabled' };
 const storeKey = 'repo';
 
 export class UnleashClient extends TinyEmitter {
@@ -48,12 +48,12 @@ export class UnleashClient extends TinyEmitter {
     private etag: string = '';
 
     constructor({
-            storageProvider,
-            url,
-            clientKey,
-            refreshInterval = 30,
-            environment = 'default',
-            appName}
+        storageProvider,
+        url,
+        clientKey,
+        refreshInterval = 30,
+        environment = 'default',
+        appName }
         : IConfig) {
         super();
         // Validations
@@ -67,11 +67,11 @@ export class UnleashClient extends TinyEmitter {
             throw new Error('appName is required.');
         }
 
-        this.url = new URL(`${url}/proxy`);
+        this.url = new URL(`${url}`);
         this.clientKey = clientKey;
         this.storage = storageProvider || new LocalStorageProvider();
         this.refreshInterval = refreshInterval * 1000;
-        this.context = {environment, appName};
+        this.context = { environment, appName };
         this.toggles = this.storage.get(storeKey) || [];
     }
 
@@ -86,8 +86,8 @@ export class UnleashClient extends TinyEmitter {
     }
 
     public updateContext(context: IContext) {
-        const staticContext = {environment: this.context.environment, appName: this.context.appName};
-        this.context = {...staticContext, ...context};
+        const staticContext = { environment: this.context.environment, appName: this.context.appName };
+        this.context = { ...staticContext, ...context };
         if (this.timerRef) {
             this.fetchToggles();
         }
